@@ -6,16 +6,17 @@ import java.security.GeneralSecurityException;
 public class App {
 	
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		System.out.println("Init!");
 		
 		CalendarQuickstart calendar = new CalendarQuickstart();
 		try {
-			calendar.call();
+//			calendar.call();
+			calendar.createEvent();
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Hello Finish!");
+		System.out.println("Finish!");
 	}
 	
 }
