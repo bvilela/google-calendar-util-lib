@@ -25,7 +25,7 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 		DateTime now = new DateTime(System.currentTimeMillis());
 		Events events = service.events().list("primary").setMaxResults(maxResults).setTimeMin(now)
 				.setOrderBy("startTime").setSingleEvents(true).execute();
-		
+
 		return events.getItems();
 	}
 
@@ -33,22 +33,28 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 	public void createEvent() throws IOException, GoogleCalendarLibException {
 		Calendar service = Authentication.getService();
 
-		Event event = new Event().setSummary("TESTE")
-//    	    .setLocation("800 Howard St., San Francisco, CA 94103")
-				.setDescription("A chance to hear more about Google's developer products.");
+		// @formatter:off
+		Event event = new Event()
+			.setSummary("TESTE")
+    	    .setLocation("800 Howard St., San Francisco, CA 94103")
+			.setDescription("A chance to hear more about Google's developer products.");
 
-		EventDateTime start = new EventDateTime().setDateTime(new DateTime("2022-07-02T23:00:00-03:00"))
-				.setTimeZone("America/Sao_Paulo");
+		EventDateTime start = new EventDateTime().
+			setDateTime(new DateTime("2022-07-02T23:00:00-03:00"))
+			.setTimeZone("America/Sao_Paulo");
 		event.setStart(start);
 
-		EventDateTime end = new EventDateTime().setDateTime(new DateTime("2022-07-02T23:30:00-03:00"))
-				.setTimeZone("America/Sao_Paulo");
+		EventDateTime end = new EventDateTime()
+			.setDateTime(new DateTime("2022-07-02T23:30:00-03:00"))
+			.setTimeZone("America/Sao_Paulo");
 		event.setEnd(end);
 
-		Event.Reminders reminders = new Event.Reminders().setUseDefault(false);
+		Event.Reminders reminders = new Event.Reminders()
+			.setUseDefault(false);
 		event.setReminders(reminders);
 
 		event.setColorId(Colors.PADRAO);
+		// @formatter:on
 
 		String calendarId = "primary";
 		service.events().insert(calendarId, event).execute();
