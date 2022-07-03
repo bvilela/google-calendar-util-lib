@@ -1,14 +1,16 @@
 package com.bvilela.lib.service.impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.bvilela.lib.auth.Authentication;
 import com.bvilela.lib.exception.GoogleCalendarLibException;
+import com.bvilela.lib.model.CalendarEvent;
 import com.bvilela.lib.service.GoogleCalendarService;
-import com.bvilela.lib.utils.Colors;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
@@ -30,33 +32,46 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 	}
 
 	@Override
-	public void createEvent() throws IOException, GoogleCalendarLibException {
+	public void createEvent(CalendarEvent dto) throws IOException, GoogleCalendarLibException {
 		Calendar service = Authentication.getService();
 
 		// @formatter:off
 		Event event = new Event()
-			.setSummary("TESTE")
-    	    .setLocation("800 Howard St., San Francisco, CA 94103")
-			.setDescription("A chance to hear more about Google's developer products.");
+			.setSummary(dto.getSummary())
+    	    .setLocation(dto.getLocation())
+			.setDescription(dto.getDescription());
 
-		EventDateTime start = new EventDateTime().
-			setDateTime(new DateTime("2022-07-02T23:00:00-03:00"))
-			.setTimeZone("America/Sao_Paulo");
+		EventDateTime start = new EventDateTime()
+			.setDateTime(convertLocalDateTimeToDateTime(dto.getDateTimeStart()))
+			.setTimeZone(dto.getTimeZone());
 		event.setStart(start);
 
 		EventDateTime end = new EventDateTime()
-			.setDateTime(new DateTime("2022-07-02T23:30:00-03:00"))
-			.setTimeZone("America/Sao_Paulo");
+			.setDateTime(convertLocalDateTimeToDateTime(dto.getDateTimeEnd()))
+			.setTimeZone(dto.getTimeZone());
 		event.setEnd(end);
 
 		Event.Reminders reminders = new Event.Reminders()
 			.setUseDefault(false);
 		event.setReminders(reminders);
 
-		event.setColorId(Colors.PADRAO);
+		event.setColorId(dto.getColor().getColorId());
 		// @formatter:on
 
 		String calendarId = "primary";
 		service.events().insert(calendarId, event).execute();
+	}
+	
+	private DateTime convertLocalDateTimeToDateTime(LocalDateTime dateTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:SS'-03:00'");
+		String date = dateTime.format(formatter);
+		return new DateTime(date);
+	}
+
+	@Override
+	public void createEvents(List<CalendarEvent> list) throws IOException, GoogleCalendarLibException {
+		for (CalendarEvent calendarEvent : list) {
+			createEvent(calendarEvent);
+		}
 	}
 }
