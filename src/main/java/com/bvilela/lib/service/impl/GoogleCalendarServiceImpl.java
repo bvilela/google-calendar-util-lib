@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,8 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 	@Override
 	public void createEvent(CalendarEvent dto) throws IOException, GoogleCalendarLibException {
 		Calendar service = Authentication.getService();
+		
+		validate(dto);
 
 		// @formatter:off
 		Event event = new Event()
@@ -61,17 +64,32 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 		String calendarId = "primary";
 		service.events().insert(calendarId, event).execute();
 	}
-	
-	private DateTime convertLocalDateTimeToDateTime(LocalDateTime dateTime) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:SS'-03:00'");
-		String date = dateTime.format(formatter);
-		return new DateTime(date);
-	}
 
 	@Override
 	public void createEvents(List<CalendarEvent> list) throws IOException, GoogleCalendarLibException {
 		for (CalendarEvent calendarEvent : list) {
 			createEvent(calendarEvent);
 		}
+	}
+	
+	private DateTime convertLocalDateTimeToDateTime(LocalDateTime dateTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:SS'-03:00'");
+		String date = dateTime.format(formatter);
+		return new DateTime(date);
+	}
+	
+	private void validate(CalendarEvent dto) throws GoogleCalendarLibException {
+		if (Objects.isNull(dto.getSummary())) {
+			throw new GoogleCalendarLibException("Summary is a required field!");
+		}
+		
+		if (Objects.isNull(dto.getDateTimeStart())) {
+			throw new GoogleCalendarLibException("DateTimeStart is a required field!");
+		}
+		
+		if (Objects.isNull(dto.getDateTimeEnd())) {
+			throw new GoogleCalendarLibException("DateTimeEnd is a required field!");
+		}
+		
 	}
 }

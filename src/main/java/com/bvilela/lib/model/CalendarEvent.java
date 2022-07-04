@@ -14,11 +14,12 @@ public class CalendarEvent {
 	private String summary;
 	private String location;
 	private String description;
+	private LocalDateTime dateTimeStart;
+	private LocalDateTime dateTimeEnd;
 
 	@Builder.Default
 	private String timeZone = "America/Sao_Paulo";
-	private LocalDateTime dateTimeStart;
-	private LocalDateTime dateTimeEnd;
 	
-	private ColorEnum color;
+	@Builder.Default
+	private ColorEnum color = ColorEnum.PADRAO;
 }
