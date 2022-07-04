@@ -87,7 +87,7 @@ Replace the `YOUR_AUTH_TOKEN` with a generated GitHub Personal Access Token (PAT
 
 
 ## :key: Create ClientId and ClientSecret on Google Cloud Plataform
-For generate ClientId and ClientSecret, see this documentations:
+For generate ClientId and ClientSecret, see these documentations:
 
 * [Java Quickstart](https://developers.google.com/calendar/api/quickstart/java)
 * [Create a Google Cloud project](https://developers.google.com/workspace/guides/create-project)
