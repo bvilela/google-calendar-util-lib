@@ -4,7 +4,7 @@
 [![build](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd.yml/badge.svg?branch=master)](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd.yml)
 [![publish](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd_publish.yml/badge.svg)](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd_publish.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)
+<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib) -->
 
 ### :bar_chart: Repository Statistics
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)
@@ -86,7 +86,7 @@ Replace the `YOUR_AUTH_TOKEN` with a generated GitHub Personal Access Token (PAT
 > :exclamation: Otherwise you will get a Not authorized exception.
 
 
-## :key: Create ClientId and ClientSecret on Google Cloud Plataform
+## :key: Create ClientId and ClientSecret on Google Cloud Platform
 For generate ClientId and ClientSecret, see these documentations:
 
 * [Java Quickstart](https://developers.google.com/calendar/api/quickstart/java)
@@ -112,8 +112,31 @@ public class Application {
 
 }
 ```
-
 This make your Spring Application recognise the Spring Services of lib.
+
+To create a event use:
+```java
+import com.bvilela.lib.enuns.ColorEnum;
+import com.bvilela.lib.model.CalendarEvent;
+import com.bvilela.lib.service.GoogleCalendarService;
+
+@Autowired
+private GoogleCalendarService calendarService;
+
+CalendarEvent dto = CalendarEvent.builder()
+		.setSummary("My Event Title")
+		.setLocation("My Event Location")
+		.setDescription("My Event Description")
+		.setDateTimeStart(LocalDateTime.of(2022, 6, 20, 20, 0))
+		.setDateTimeEnd(LocalDateTime.of(2022, 6, 20, 21, 0))
+		.setColor(ColorEnum.SALVIA) // Default: ColorEnum.PADRAO
+		.setTimeZone("America/Sao_Paulo") // Default: "America/Sao_Paulo"
+		.build();
+
+calendarService.createEvent(dto);
+// or
+calendarService.createEvents(List.of(dto1, dto2...));
+```
 
 
 [⬆ Voltar ao topo](#google-calendar-util-lib)<br>
