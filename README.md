@@ -138,5 +138,25 @@ calendarService.createEvent(dto);
 calendarService.createEvents(List.of(dto1, dto2...));
 ```
 
+## :memo: Enabled Default Log
+
+To enable default logging of events sent to Google Calendar, follow these steps:
+1. Add `com.bvilela.lib.google.calendar.logging.event=true` in your `application.properties`, as below:
+```properties
+### Logging ###
+com.bvilela.lib.google.calendar.logging.event=true
+```
+
+2. Use the correct methods:
+```java
+import org.slf4j.Logger;
+import com.bvilela.lib.model.CalendarEvent;
+
+calendarService.createEvent(calendarEventDto, log); // log is a org.slf4j.Logger instance
+// or
+calendarService.createEvents(listCalendarEventDto, log); // log is a org.slf4j.Logger instance
+```
+
+#### TODO: add example of output
 
 [⬆ Voltar ao topo](#google-calendar-util-lib)<br>
