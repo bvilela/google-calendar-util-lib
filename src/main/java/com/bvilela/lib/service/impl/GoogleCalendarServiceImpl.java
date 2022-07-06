@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.bvilela.lib.auth.Authentication;
@@ -20,6 +22,9 @@ import com.google.api.services.calendar.model.Events;
 
 @Service
 public class GoogleCalendarServiceImpl implements GoogleCalendarService {
+	
+	@Value("${com.bvilela.lib.google.calendar.logging.event:false}")
+	private boolean showLog;
 
 	@Override
 	public List<Event> getEvents(int maxResults) throws IOException, GoogleCalendarLibException {
@@ -31,9 +36,14 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 
 		return events.getItems();
 	}
-
+	
 	@Override
 	public void createEvent(CalendarEvent dto) throws IOException, GoogleCalendarLibException {
+		createEvent(dto, null);
+	}
+
+	@Override
+	public void createEvent(CalendarEvent dto, Logger log) throws IOException, GoogleCalendarLibException {
 		Calendar service = Authentication.getService();
 		
 		validate(dto);
@@ -60,6 +70,12 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 
 		event.setColorId(dto.getColor().getColorId());
 		// @formatter:on
+		
+		if (showLog && Objects.nonNull(log)) {
+			log.info("Sending Event to Google Calendar...");
+			String msg = dto.toStringSummary();
+			log.info("{}", msg);
+		}
 
 		String calendarId = "primary";
 		service.events().insert(calendarId, event).execute();
@@ -67,8 +83,13 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 
 	@Override
 	public void createEvents(List<CalendarEvent> list) throws IOException, GoogleCalendarLibException {
+		createEvents(list, null);
+	}
+
+	@Override
+	public void createEvents(List<CalendarEvent> list, Logger log) throws IOException, GoogleCalendarLibException {
 		for (CalendarEvent calendarEvent : list) {
-			createEvent(calendarEvent);
+			createEvent(calendarEvent, log);
 		}
 	}
 	
@@ -92,4 +113,5 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 		}
 		
 	}
+
 }
