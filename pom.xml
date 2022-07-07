@@ -7,7 +7,7 @@
 
 	<groupId>com.bvilela.lib</groupId>
 	<artifactId>google-calendar-util-lib</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>google-calendar-util-lib</name>
 
 	<properties>
@@ -48,6 +48,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.24</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.0-alpha7</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
