@@ -157,7 +157,7 @@ calendarService.createEvent(calendarEventDto, log); // log is a org.slf4j.Logger
 calendarService.createEvents(listCalendarEventDto, log); // log is a org.slf4j.Logger instance
 ```
 
-**Example Default Log output**
+**Example Default Log Output**
 ```text
 Sending Event to Google Calendar...
 CalendarEvent[Summary=myEventTitle, Dates=(2022-07-19T21:30 - 2022-07-19T22:00), Color=SALVIA]
