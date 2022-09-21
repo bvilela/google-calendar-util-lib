@@ -7,7 +7,7 @@
 
 	<groupId>com.bvilela.lib</groupId>
 	<artifactId>google-calendar-util-lib</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>google-calendar-util-lib</name>
 
 	<properties>

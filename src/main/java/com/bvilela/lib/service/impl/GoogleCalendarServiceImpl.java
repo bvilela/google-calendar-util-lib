@@ -25,10 +25,13 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 	
 	@Value("${com.bvilela.lib.google.calendar.logging.event:false}")
 	private boolean showLog;
+	
+	@Value("${com.bvilela.lib.google.calendar.path.credentials:#{null}}")
+	private String pathCredentials;
 
 	@Override
 	public List<Event> getEvents(int maxResults) throws IOException, GoogleCalendarLibException {
-		Calendar service = Authentication.getService();
+		Calendar service = Authentication.getService(pathCredentials);
 
 		DateTime now = new DateTime(System.currentTimeMillis());
 		Events events = service.events().list("primary").setMaxResults(maxResults).setTimeMin(now)
@@ -44,7 +47,7 @@ public class GoogleCalendarServiceImpl implements GoogleCalendarService {
 
 	@Override
 	public void createEvent(CalendarEvent dto, Logger log) throws IOException, GoogleCalendarLibException {
-		Calendar service = Authentication.getService();
+		Calendar service = Authentication.getService(pathCredentials);
 		
 		validate(dto);
 
