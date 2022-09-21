@@ -1,6 +1,7 @@
 package com.bvilela.lib.auth;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.core.io.ClassPathResource;
 
@@ -49,10 +51,10 @@ public final class Authentication {
 	 * @throws GeneralSecurityException
 	 * @throws GoogleCalendarLibException
 	 */
-	public static Calendar getService() throws GoogleCalendarLibException {
+	public static Calendar getService(String pathCredentials) throws GoogleCalendarLibException {
 		try {
 			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-			return new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+			return new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport, pathCredentials))
 					.setApplicationName(APPLICATION_NAME).build();
 			
 		} catch (GeneralSecurityException | IOException e) {
@@ -69,9 +71,10 @@ public final class Authentication {
 	 *                                    found.
 	 * @throws GoogleCalendarLibException
 	 */
-	private static Credential getCredentials(final NetHttpTransport httpTransport) throws GoogleCalendarLibException {
+	private static Credential getCredentials(final NetHttpTransport httpTransport, 
+			final String pathCredentials) throws GoogleCalendarLibException {
 
-		GoogleClientSecrets clientSecrets = getClientSecrets();
+		GoogleClientSecrets clientSecrets = getClientSecrets(pathCredentials);
 
 		try {
 			// @formatter:off
@@ -95,12 +98,19 @@ public final class Authentication {
 	 * 
 	 * @throws GoogleCalendarLibException
 	 */
-	private static GoogleClientSecrets getClientSecrets() throws GoogleCalendarLibException {
+	private static GoogleClientSecrets getClientSecrets(final String pathCredentials) throws GoogleCalendarLibException {
 
 		InputStream in = null;
 		try {
-			Path path = Paths.get("google-credentials.json");
-			in = new ClassPathResource(path.toString()).getInputStream();
+			
+			if (Objects.isNull(pathCredentials)) {
+				Path path = Paths.get("google-credentials.json");
+				in = new ClassPathResource(path.toString()).getInputStream();	
+			} else {
+				Path path = Paths.get(pathCredentials, "google-credentials.json");
+				in = new FileInputStream(path.toString());
+			}
+			
 		} catch (IOException e) {
 			throw new GoogleCalendarLibException("Resource not found: google-credentials.json", e.getMessage());
 		}
