@@ -95,7 +95,7 @@ For generate ClientId and ClientSecret, see these documentations:
   * Create an OAuth client ID: App Type Desktop;
   * Download the json file;
   * Rename the file to `google-credentials.json`;
-  * Copy the file to `resources` folder;
+  * Copy the file to `resources` or `another directory` (see [this section](#lock-change-location-google-credentialsjson-file));
   
 > * Remember to add your gmail in `Test Users` in your Project in Google Cloud Console
 > * Add following scopes in your app:
@@ -161,6 +161,15 @@ calendarService.createEvents(listCalendarEventDto, log); // log is a org.slf4j.L
 ```text
 Sending Event to Google Calendar...
 CalendarEvent[Summary=myEventTitle, Dates=(2022-07-19T21:30 - 2022-07-19T22:00), Color=SALVIA]
+```
+
+## :lock: Change Location `google-credentials.json` file
+
+If you don't want or can't add the `google-credentials.json` file in the `src` directory, set this property and set `another directory` to save the file.
+
+```properties
+### Lib Google Calendar ###
+com.bvilela.lib.google.calendar.path.credentials=D:\\my-directory
 ```
 
 [⬆ Voltar ao topo](#google-calendar-util-lib)<br>
