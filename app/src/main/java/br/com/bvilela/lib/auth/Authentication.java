@@ -1,4 +1,4 @@
-package com.bvilela.lib.auth;
+package br.com.bvilela.lib.auth;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import org.springframework.core.io.ClassPathResource;
 
-import com.bvilela.lib.exception.GoogleCalendarLibException;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;

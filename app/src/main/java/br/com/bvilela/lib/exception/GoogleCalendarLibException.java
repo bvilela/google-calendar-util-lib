@@ -1,4 +1,4 @@
-package com.bvilela.lib.exception;
+package br.com.bvilela.lib.exception;
 
 public class GoogleCalendarLibException extends Exception {
 

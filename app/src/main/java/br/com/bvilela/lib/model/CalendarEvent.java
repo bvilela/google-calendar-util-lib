@@ -1,8 +1,8 @@
-package com.bvilela.lib.model;
+package br.com.bvilela.lib.model;
 
 import java.time.LocalDateTime;
 
-import com.bvilela.lib.enuns.ColorEnum;
+import br.com.bvilela.lib.enuns.ColorEnum;
 
 import lombok.Builder;
 import lombok.Getter;

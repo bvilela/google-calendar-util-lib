@@ -1,4 +1,4 @@
-package com.bvilela.lib.enuns;
+package br.com.bvilela.lib.enuns;
 
 import lombok.Getter;
 
