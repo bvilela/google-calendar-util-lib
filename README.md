@@ -37,14 +37,14 @@ Java Lib with useful services for Google Calendar API.
 Read and create events on Google Calendar.
 
 ## :gear: Add dependency in your project
-To include this dependency in you project, you have to do three things.
+To include this dependency in you project, you need:
 
-1. Add as dependency in your `pom.xml`:
+1. Add dependency in your `pom.xml`:
 ```xml
 <dependency>
-    <groupId>com.bvilela.lib</groupId>
-    <artifactId>google-calendar-util-lib</artifactId>
-    <version>0.0.1</version>
+	<groupId>br.com.bvilela.lib</groupId>
+	<artifactId>google-calendar-util-lib</artifactId>
+	<version>1.0.0</version>
 </dependency>
 ```
 
@@ -107,7 +107,7 @@ For generate ClientId and ClientSecret, see these documentations:
 In your Application Class add:
 ```java
 @SpringBootApplication
-@ComponentScan({"<your-path>", "com.bvilela.lib"})
+@ComponentScan({"<your-path>", "br.com.bvilela.lib"})
 public class Application {
 
 }
@@ -116,12 +116,12 @@ This make your Spring Application recognise the Spring Services of lib.
 
 To create a event use:
 ```java
-import com.bvilela.lib.enuns.ColorEnum;
-import com.bvilela.lib.model.CalendarEvent;
-import com.bvilela.lib.service.GoogleCalendarService;
+import br.com.bvilela.lib.enuns.ColorEnum;
+import br.com.bvilela.lib.model.CalendarEvent;
+import br.com.bvilela.lib.service.GoogleCalendarCreateService;
 
 @Autowired
-private GoogleCalendarService calendarService;
+private GoogleCalendarCreateService calendarService;
 
 CalendarEvent dto = CalendarEvent.builder()
 		.setSummary("My Event Title")
@@ -144,18 +144,9 @@ To enable default logging of events sent to Google Calendar, follow these steps:
 1. Add `com.bvilela.lib.google.calendar.logging.event=true` in your `application.properties`, as below:
 ```properties
 ### Logging ###
-com.bvilela.lib.google.calendar.logging.event=true
+bvilela.lib.google.calendar.log.enabled=true
 ```
 
-2. Use the correct methods:
-```java
-import org.slf4j.Logger;
-import com.bvilela.lib.model.CalendarEvent;
-
-calendarService.createEvent(calendarEventDto, log); // log is a org.slf4j.Logger instance
-// or
-calendarService.createEvents(listCalendarEventDto, log); // log is a org.slf4j.Logger instance
-```
 
 **Example Default Log Output**
 ```text
@@ -169,7 +160,7 @@ If you don't want or can't add the `google-credentials.json` file in the `src` d
 
 ```properties
 ### Lib Google Calendar ###
-com.bvilela.lib.google.calendar.path.credentials=D:\\my-directory
+bvilela.lib.google.calendar.credentials.path=D:\\my-directory
 ```
 
 [⬆ Voltar ao topo](#google-calendar-util-lib)<br>
