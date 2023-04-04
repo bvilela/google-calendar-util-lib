@@ -6,7 +6,7 @@ on:
       - '!master'   # excludes master
     paths-ignore:
       - '**/README.md'
-      - '.github/workflows/**'
+#      - '.github/workflows/**'
 
 jobs:
   sonarcloud:
