@@ -1,7 +1,9 @@
 package br.com.bvilela.lib.enuns;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 public enum ColorEnum {
 
 	PADRAO("0"),
@@ -19,9 +21,5 @@ public enum ColorEnum {
 	
 	@Getter
 	private String colorId;
-	
-	ColorEnum(String colorId) {
-		this.colorId = colorId;
-	}
 	
 }

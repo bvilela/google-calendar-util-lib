@@ -2,7 +2,6 @@ package br.com.bvilela.lib.service.impl;
 
 import br.com.bvilela.lib.auth.Authentication;
 import br.com.bvilela.lib.config.ConfigLib;
-import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import br.com.bvilela.lib.service.GoogleCalendarGetService;
 import br.com.bvilela.lib.utils.Utils;
 import com.google.api.client.util.DateTime;
@@ -13,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -28,7 +24,7 @@ public class GoogleCalendarGetServiceImpl implements GoogleCalendarGetService {
     @Override
     @SneakyThrows
     public List<Event> getEvents(int maxResults) {
-        Calendar calendarService = Authentication.getService(config.getPathCredentials());
+        Calendar calendarService = Authentication.getService(config.getCredentialsPath());
 
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = calendarService
@@ -46,7 +42,7 @@ public class GoogleCalendarGetServiceImpl implements GoogleCalendarGetService {
     @Override
     @SneakyThrows
     public List<Event> getEvents(LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title) {
-        Calendar calendarService = Authentication.getService(config.getPathCredentials());
+        Calendar calendarService = Authentication.getService(config.getCredentialsPath());
 
         DateTime timeMin = Utils.convertLocalDateTimeToDateTime(dateTimeStart);
         DateTime timeMax = Utils.convertLocalDateTimeToDateTime(dateTimeEnd);

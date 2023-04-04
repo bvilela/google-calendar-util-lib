@@ -1,25 +1,25 @@
 package br.com.bvilela.lib.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import br.com.bvilela.lib.config.ConfigLib;
-import br.com.bvilela.lib.service.GoogleCalendarGetService;
-import br.com.bvilela.lib.utils.Utils;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Service;
-
 import br.com.bvilela.lib.auth.Authentication;
+import br.com.bvilela.lib.config.ConfigLib;
 import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import br.com.bvilela.lib.model.CalendarEvent;
 import br.com.bvilela.lib.service.GoogleCalendarCreateService;
+import br.com.bvilela.lib.service.GoogleCalendarGetService;
+import br.com.bvilela.lib.utils.Utils;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateService {
 
@@ -27,23 +27,16 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 
 	private final GoogleCalendarGetService getService;
 
-	private Logger log;
-	
 	@Override
-	public void createEvent(CalendarEvent dto) throws IOException, GoogleCalendarLibException {
-		createEvent(dto, null);
-	}
-
-	@Override
-	public void createEvent(CalendarEvent dto, Logger log) throws IOException, GoogleCalendarLibException {
-		this.log = log;
-		Calendar service = Authentication.getService(config.getPathCredentials());
+	@SneakyThrows
+	public void createEvent(CalendarEvent dto) {
+		Calendar service = Authentication.getService(config.getCredentialsPath());
 		
-		Utils.validateDto(dto);
+		validateDto(dto);
 
 		List<Event> events = getService.getEvents(dto.getDateTimeStart(), dto.getDateTimeEnd(), dto.getSummary());
 		if (!events.isEmpty()) {
-			if (showLog()) {
+			if (config.isLogEnabled()) {
 				log.info("Event not Send to Google Calendar. Event already exists in Calendar");
 				log.info("{}", dto.toStringSummary());
 			}
@@ -52,7 +45,7 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 
 		Event event = createCalendarModelEvent(dto);
 
-		if (showLog()) {
+		if (config.isLogEnabled()) {
 			log.info("Sending Event to Google Calendar...");
 			log.info("{}", dto.toStringSummary());
 		}
@@ -62,22 +55,26 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 	}
 
 	@Override
-	public void createEvents(List<CalendarEvent> list) throws IOException, GoogleCalendarLibException {
-		createEvents(list, null);
+	@SneakyThrows
+	public void createEvents(List<CalendarEvent> list) {
+		list.forEach(this::createEvent);
 	}
 
-	@Override
-	public void createEvents(List<CalendarEvent> list, Logger log) throws IOException, GoogleCalendarLibException {
-		for (CalendarEvent calendarEvent : list) {
-			createEvent(calendarEvent, log);
+	private void validateDto(CalendarEvent dto) throws GoogleCalendarLibException {
+		if (Objects.isNull(dto.getSummary())) {
+			throw new GoogleCalendarLibException("Summary is a required field!");
+		}
+
+		if (Objects.isNull(dto.getDateTimeStart())) {
+			throw new GoogleCalendarLibException("DateTimeStart is a required field!");
+		}
+
+		if (Objects.isNull(dto.getDateTimeEnd())) {
+			throw new GoogleCalendarLibException("DateTimeEnd is a required field!");
 		}
 	}
 
-	private boolean showLog() {
-		return config.isShowLog() && Objects.nonNull(log);
-	}
-
-	private static Event createCalendarModelEvent(CalendarEvent dto) {
+	private Event createCalendarModelEvent(CalendarEvent dto) {
 		// @formatter:off
 		Event event = new Event()
 				.setSummary(dto.getSummary())
@@ -94,7 +91,8 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 				.setTimeZone(dto.getTimeZone());
 		event.setEnd(end);
 
-		Event.Reminders reminders = new Event.Reminders()
+		Event.Reminders reminders = new Event
+				.Reminders()
 				.setUseDefault(false);
 		event.setReminders(reminders);
 
@@ -102,4 +100,5 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 		// @formatter:on
 		return event;
 	}
+
 }

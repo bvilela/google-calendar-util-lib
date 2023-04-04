@@ -31,26 +31,11 @@ import com.google.api.services.calendar.CalendarScopes;
 public final class Authentication {
 
 	public static final String APPLICATION_NAME = "My Google Calendar Application";
-
-	// If modifying these scopes, delete your previously saved tokens/ folder.
+	// If modifying these scopes, delete your previously saved tokens folder
 	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
-
-	// Global instance of the JSON factory.
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-
-	// Directory to store authorization tokens for this application.
 	private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-	private Authentication() {
-	}
-
-	/**
-	 * Build a new authorized API client service.
-	 * 
-	 * @throws IOException
-	 * @throws GeneralSecurityException
-	 * @throws GoogleCalendarLibException
-	 */
 	public static Calendar getService(String pathCredentials) throws GoogleCalendarLibException {
 		try {
 			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -62,15 +47,6 @@ public final class Authentication {
 		}
 	}
 
-	/**
-	 * Creates an authorized Credential object.
-	 * 
-	 * @param HTTP_TRANSPORT The network HTTP Transport.
-	 * @return An authorized Credential object.
-	 * @throws IOException                If the credentials.json file cannot be
-	 *                                    found.
-	 * @throws GoogleCalendarLibException
-	 */
 	private static Credential getCredentials(final NetHttpTransport httpTransport, 
 			final String pathCredentials) throws GoogleCalendarLibException {
 
@@ -93,11 +69,6 @@ public final class Authentication {
 		}
 	}
 
-	/**
-	 * Load client secrets
-	 * 
-	 * @throws GoogleCalendarLibException
-	 */
 	private static GoogleClientSecrets getClientSecrets(final String pathCredentials) throws GoogleCalendarLibException {
 
 		InputStream in = null;

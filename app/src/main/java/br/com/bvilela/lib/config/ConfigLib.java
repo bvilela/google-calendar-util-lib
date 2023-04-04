@@ -1,17 +1,20 @@
 package br.com.bvilela.lib.config;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
 @Getter
+@Configuration
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigLib {
 
-    @Value("${com.bvilela.lib.google.calendar.logging.event:false}")
-    private boolean showLog;
+    @Value("${bvilela.lib.google.calendar.log.enabled:false}")
+    private boolean logEnabled;
 
-    @Value("${com.bvilela.lib.google.calendar.path.credentials:#{null}}")
-    private String pathCredentials;
+    @Value("${bvilela.lib.google.calendar.credentials.path:#{null}}")
+    private String credentialsPath;
 
 }
