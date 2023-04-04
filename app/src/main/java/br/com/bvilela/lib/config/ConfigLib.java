@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Getter
 @Configuration
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigLib {
 
     @Value("${bvilela.lib.google.calendar.log.enabled:false}")
