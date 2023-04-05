@@ -143,7 +143,6 @@ calendarService.createEvents(List.of(dto1, dto2...));
 To enable default logging of events sent to Google Calendar, follow these steps:
 1. In your `application.properties` add:
 ```properties
-### Logging ###
 bvilela.lib.google.calendar.log.enabled=true
 ```
 
@@ -156,10 +155,9 @@ CalendarEvent[Summary=myEventTitle, Dates=(2022-07-19T21:30 - 2022-07-19T22:00),
 
 ## :lock: Change Location `google-credentials.json` file
 
-If you don't want or can't add the `google-credentials.json` file in the `src` directory, set this property and set `another directory` to save the file.
+If you don't want or can't add the `google-credentials.json` file in the `src` directory, add this `property` in your `application.properties` and set the `directory` to save the file.
 
 ```properties
-### Lib Google Calendar ###
 bvilela.lib.google.calendar.credentials.path=D:\\my-directory
 ```
 
