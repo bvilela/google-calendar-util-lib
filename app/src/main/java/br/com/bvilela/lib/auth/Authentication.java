@@ -1,20 +1,6 @@
 package br.com.bvilela.lib.auth;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
 import br.com.bvilela.lib.exception.GoogleCalendarLibException;
-import org.springframework.core.io.ClassPathResource;
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -27,7 +13,20 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Authentication {
 
 	public static final String APPLICATION_NAME = "My Google Calendar Application";
@@ -36,7 +35,8 @@ public final class Authentication {
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 	private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-	public static Calendar getService(String pathCredentials) throws GoogleCalendarLibException {
+	@SneakyThrows
+	public static Calendar getService(String pathCredentials) {
 		try {
 			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			return new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport, pathCredentials))
@@ -47,8 +47,9 @@ public final class Authentication {
 		}
 	}
 
-	private static Credential getCredentials(final NetHttpTransport httpTransport, 
-			final String pathCredentials) throws GoogleCalendarLibException {
+	@SneakyThrows
+	private static Credential getCredentials(final NetHttpTransport httpTransport,
+											 final String pathCredentials) {
 
 		GoogleClientSecrets clientSecrets = getClientSecrets(pathCredentials);
 
@@ -69,9 +70,10 @@ public final class Authentication {
 		}
 	}
 
-	private static GoogleClientSecrets getClientSecrets(final String pathCredentials) throws GoogleCalendarLibException {
+	@SneakyThrows
+	private static GoogleClientSecrets getClientSecrets(final String pathCredentials) {
 
-		InputStream in = null;
+		InputStream in;
 		try {
 			
 			if (Objects.isNull(pathCredentials)) {

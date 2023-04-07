@@ -30,12 +30,9 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 	@Override
 	@SneakyThrows
 	public void createEvent(CalendarEvent dto) {
-		Calendar service = Authentication.getService(config.getCredentialsPath());
-		
 		validateDto(dto);
 
-		List<Event> events = getService.getEvents(dto.getDateTimeStart(), dto.getDateTimeEnd(), dto.getSummary());
-		if (!events.isEmpty()) {
+		if (checkEventAlreadyExists(dto)) {
 			if (config.isLogEnabled()) {
 				log.info("Event not Send to Google Calendar. Event already exists in Calendar");
 				log.info("{}", dto.toStringSummary());
@@ -45,13 +42,7 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 
 		Event event = createCalendarModelEvent(dto);
 
-		if (config.isLogEnabled()) {
-			log.info("Sending Event to Google Calendar...");
-			log.info("{}", dto.toStringSummary());
-		}
-
-		String calendarId = "primary";
-		service.events().insert(calendarId, event).execute();
+		sendEventToCalendarAPI(dto, event);
 	}
 
 	@Override
@@ -60,7 +51,8 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 		list.forEach(this::createEvent);
 	}
 
-	private void validateDto(CalendarEvent dto) throws GoogleCalendarLibException {
+	@SneakyThrows
+	private void validateDto(CalendarEvent dto) {
 		if (Objects.isNull(dto.getSummary())) {
 			throw new GoogleCalendarLibException("Summary is a required field!");
 		}
@@ -72,6 +64,11 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 		if (Objects.isNull(dto.getDateTimeEnd())) {
 			throw new GoogleCalendarLibException("DateTimeEnd is a required field!");
 		}
+	}
+
+	private boolean checkEventAlreadyExists(CalendarEvent dto) {
+		List<Event> events = getService.getEvents(dto.getDateTimeStart(), dto.getDateTimeEnd(), dto.getSummary());
+		return !events.isEmpty();
 	}
 
 	private Event createCalendarModelEvent(CalendarEvent dto) {
@@ -99,6 +96,19 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 		event.setColorId(dto.getColor().getColorId());
 		// @formatter:on
 		return event;
+	}
+
+	@SneakyThrows
+	private void sendEventToCalendarAPI(CalendarEvent calendarEvent, Event event) {
+		Calendar service = Authentication.getService(config.getCredentialsPath());
+
+		if (config.isLogEnabled()) {
+			log.info("Sending Event to Google Calendar...");
+			log.info("{}", calendarEvent.toStringSummary());
+		}
+
+		String calendarId = "primary";
+		service.events().insert(calendarId, event).execute();
 	}
 
 }
