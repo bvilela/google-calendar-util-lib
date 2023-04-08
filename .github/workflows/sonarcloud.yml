@@ -32,7 +32,6 @@ jobs:
         with:
           version: '6.40.0'
           sourcePath: 'app/src/main/java'
-          # rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           rulesets: 'app/my-ruleset.xml'          
       - name: Validating PMD rules for violations
         if: steps.pmd.outputs.violations != 0
