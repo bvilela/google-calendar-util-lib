@@ -35,6 +35,8 @@ public final class Authentication {
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 	private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
+	private int test;
+
 	@SneakyThrows
 	public static Calendar getService(String pathCredentials) {
 		try {
