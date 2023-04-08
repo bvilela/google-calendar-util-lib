@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
-      - name: check PMD
+      - name: Check PMD
         uses: pmd/pmd-github-action@v1
         id: pmd
         with:
@@ -34,10 +34,11 @@ jobs:
           sourcePath: 'app/src/main/java'
           # rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           rulesets: 'app/my-ruleset.xml'          
-      - name: Checking PMD rules for violations
+      - name: Validating PMD rules for violations
         if: steps.pmd.outputs.violations != 0
         run: |
-          echo "Number of Violations ${{ steps.pmd.outputs.violations }}"
+          echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero !!!)"
+          echo "Check previous step for more details"
           exit 1
 
       - name: Run Unit Test
