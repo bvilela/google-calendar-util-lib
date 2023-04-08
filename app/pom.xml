@@ -77,16 +77,6 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
                     <version>3.13.0</version>
                     <configuration>
@@ -94,8 +84,6 @@
                         <printFailingErrors>true</printFailingErrors>
                         <linkXRef>false</linkXRef>
                         <rulesets>
-                            <!--<ruleset>/rulesets/java/braces.xml</ruleset>
-                            <ruleset>/rulesets/java/naming.xml</ruleset>-->
                             <ruleset>my-ruleset.xml</ruleset>
                         </rulesets>
                     </configuration>

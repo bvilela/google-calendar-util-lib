@@ -3,7 +3,7 @@ package br.com.bvilela.lib.service.impl;
 import br.com.bvilela.lib.auth.Authentication;
 import br.com.bvilela.lib.config.ConfigLib;
 import br.com.bvilela.lib.service.GoogleCalendarGetService;
-import br.com.bvilela.lib.utils.Utils;
+import br.com.bvilela.lib.utils.DateUtils;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
@@ -44,8 +44,8 @@ public class GoogleCalendarGetServiceImpl implements GoogleCalendarGetService {
     public List<Event> getEvents(LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title) {
         Calendar calendarService = Authentication.getService(config.getCredentialsPath());
 
-        DateTime timeMin = Utils.convertLocalDateTimeToDateTime(dateTimeStart);
-        DateTime timeMax = Utils.convertLocalDateTimeToDateTime(dateTimeEnd);
+        DateTime timeMin = DateUtils.convertLocalDateTimeToDateTime(dateTimeStart);
+        DateTime timeMax = DateUtils.convertLocalDateTimeToDateTime(dateTimeEnd);
 
         Events events = calendarService
                 .events()

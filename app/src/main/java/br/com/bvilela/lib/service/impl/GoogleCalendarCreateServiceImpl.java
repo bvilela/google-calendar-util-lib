@@ -6,7 +6,7 @@ import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import br.com.bvilela.lib.model.CalendarEvent;
 import br.com.bvilela.lib.service.GoogleCalendarCreateService;
 import br.com.bvilela.lib.service.GoogleCalendarGetService;
-import br.com.bvilela.lib.utils.Utils;
+import br.com.bvilela.lib.utils.DateUtils;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
@@ -79,12 +79,12 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 				.setDescription(dto.getDescription());
 
 		EventDateTime start = new EventDateTime()
-				.setDateTime(Utils.convertLocalDateTimeToDateTime(dto.getDateTimeStart()))
+				.setDateTime(DateUtils.convertLocalDateTimeToDateTime(dto.getDateTimeStart()))
 				.setTimeZone(dto.getTimeZone());
 		event.setStart(start);
 
 		EventDateTime end = new EventDateTime()
-				.setDateTime(Utils.convertLocalDateTimeToDateTime(dto.getDateTimeEnd()))
+				.setDateTime(DateUtils.convertLocalDateTimeToDateTime(dto.getDateTimeEnd()))
 				.setTimeZone(dto.getTimeZone());
 		event.setEnd(end);
 
