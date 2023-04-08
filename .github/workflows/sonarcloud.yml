@@ -37,8 +37,8 @@ jobs:
       - name: Validating PMD rules for violations
         if: steps.pmd.outputs.violations != 0
         run: |
-          echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero !!!)"
-          echo "Check previous step for more details"
+          echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero!!!)"
+          echo "Check previous step for more details!!!"
           exit 1
 
       - name: Run Unit Test

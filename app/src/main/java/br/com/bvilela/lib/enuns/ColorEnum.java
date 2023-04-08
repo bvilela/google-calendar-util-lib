@@ -2,8 +2,6 @@ package br.com.bvilela.lib.enuns;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 public enum ColorEnum {

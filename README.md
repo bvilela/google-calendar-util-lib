@@ -36,6 +36,12 @@ Java Lib with useful services for Google Calendar API.
 ## :hammer_and_wrench: Lib Features
 Read and create events on Google Calendar.
 
+## :heavy_check_mark: Check PMD rules locally
+To check PMD rules in your machine, run follow command in `app` dir:
+```
+mvn pmd:check
+```
+
 ## :gear: Add dependency in your project
 To include this dependency in you project, you need:
 
