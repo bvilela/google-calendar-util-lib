@@ -35,9 +35,10 @@ jobs:
           # rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           rulesets: 'app/my-ruleset.xml'          
       - name: Checking PMD rules for violations
-        run: echo ${steps.pmd.outputs.violations}
         if: steps.pmd.outputs.violations != 0
-        run: exit 1
+        run: |
+          echo "Number of Violations ${steps.pmd.outputs.violations}""
+          exit 1
 
       - name: Run Unit Test
         run: mvn test --file app/pom.xml
