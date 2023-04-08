@@ -34,7 +34,8 @@ jobs:
           sourcePath: 'app/src/main/java'
           # rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           rulesets: 'app/my-ruleset.xml'          
-      - name: Fail build if there are violations
+      - name: Checking PMD rules for violations
+        run: echo ${steps.pmd.outputs.violations}
         if: steps.pmd.outputs.violations != 0
         run: exit 1
 
