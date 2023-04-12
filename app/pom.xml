@@ -46,6 +46,13 @@
             <artifactId>spring-context</artifactId>
             <version>5.3.21</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -84,7 +91,7 @@
                         <printFailingErrors>true</printFailingErrors>
                         <linkXRef>false</linkXRef>
                         <rulesets>
-                            <ruleset>my-ruleset.xml</ruleset>
+                            <ruleset>pmd-ruleset.xml</ruleset>
                         </rulesets>
                     </configuration>
                     <executions>
