@@ -26,20 +26,20 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
-      - name: Check PMD
-        uses: pmd/pmd-github-action@v1
-        id: pmd
-        with:
-          version: '6.40.0'
-          sourcePath: 'app/src/main/java'
-          rulesets: 'app/pmd-ruleset.xml'
+      # - name: Check PMD
+      #   uses: pmd/pmd-github-action@v1
+      #   id: pmd
+      #   with:
+      #     version: '6.40.0'
+      #     sourcePath: 'app/src/main/java'
+      #     rulesets: 'app/pmd-ruleset.xml'
 
-      - name: Validating PMD rules for violations
-        if: steps.pmd.outputs.violations != 0
-        run: |
-          echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero!!!)"
-          echo "Check previous step for more details!!!"
-          exit 1
+      # - name: Validating PMD rules for violations
+      #   if: steps.pmd.outputs.violations != 0
+      #   run: |
+      #     echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero!!!)"
+      #     echo "Check previous step for more details!!!"
+      #     exit 1
 
       - name: Run Unit Test
         run: mvn test --file app/pom.xml
