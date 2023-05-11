@@ -1,12 +1,12 @@
 package br.com.bvilela.lib.utils;
 
 import com.google.api.client.util.DateTime;
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 class DateUtilsTest {
 
@@ -15,7 +15,7 @@ class DateUtilsTest {
     void shouldReturnDateTimeCase1() {
         LocalDateTime now = LocalDateTime.now();
         DateTime dateTime = DateUtils.convertLocalDateTimeToDateTime(now);
-        Assert.assertNotNull(dateTime);
+        Assertions.assertNotNull(dateTime);
     }
 
     @Test
@@ -24,7 +24,7 @@ class DateUtilsTest {
         LocalDateTime now = LocalDateTime.of(2022,10,5, 4,30,25);
         DateTime dateTime = DateUtils.convertLocalDateTimeToDateTime(now);
         String expected = "2022-10-05T04:30:25.000-03:00";
-        Assert.assertEquals(expected, dateTime.toString());
+        Assertions.assertEquals(expected, dateTime.toString());
     }
 
 }
