@@ -34,12 +34,12 @@ jobs:
           sourcePath: 'app/src/main/java'
           rulesets: 'app/pmd-ruleset.xml'
 
-      - name: No PMD rules for violations
+      - name: No Violation of PMD Rules
         if: steps.pmd.outputs.violations == 0
         run: |
-          echo "No violation for PMD Rules!"         
+          echo "No violation of the PMD Rules. Congratulations! :)"         
 
-      - name: Validating PMD rules for violations
+      - name: Validating Violations of PMD Rules
         if: steps.pmd.outputs.violations != 0
         run: |
           echo "Number of Violations: ${{ steps.pmd.outputs.violations }} - (Must be Zero!!!)"
