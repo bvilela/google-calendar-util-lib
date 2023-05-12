@@ -27,35 +27,38 @@ public class GoogleCalendarGetServiceImpl implements GoogleCalendarGetService {
         Calendar calendarService = Authentication.getService(config.getCredentialsPath());
 
         DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = calendarService
-                .events()
-                .list("primary")
-                .setMaxResults(maxResults)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
+        Events events =
+                calendarService
+                        .events()
+                        .list("primary")
+                        .setMaxResults(maxResults)
+                        .setTimeMin(now)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
 
         return events.getItems();
     }
 
     @Override
     @SneakyThrows
-    public List<Event> getEvents(LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title) {
+    public List<Event> getEvents(
+            LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title) {
         Calendar calendarService = Authentication.getService(config.getCredentialsPath());
 
         DateTime timeMin = DateUtils.convertLocalDateTimeToDateTime(dateTimeStart);
         DateTime timeMax = DateUtils.convertLocalDateTimeToDateTime(dateTimeEnd);
 
-        Events events = calendarService
-                .events()
-                .list("primary")
-                .setTimeMin(timeMin)
-                .setTimeMax(timeMax)
-                .set("Summary", title)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
+        Events events =
+                calendarService
+                        .events()
+                        .list("primary")
+                        .setTimeMin(timeMin)
+                        .setTimeMax(timeMax)
+                        .set("Summary", title)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
 
         return events.getItems();
     }

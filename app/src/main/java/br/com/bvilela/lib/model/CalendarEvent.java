@@ -13,20 +13,19 @@ import lombok.ToString;
 @Builder(setterPrefix = "set")
 public class CalendarEvent {
 
-	private String summary;
-	private String location;
-	private String description;
-	private LocalDateTime dateTimeStart;
-	private LocalDateTime dateTimeEnd;
+    private String summary;
+    private String location;
+    private String description;
+    private LocalDateTime dateTimeStart;
+    private LocalDateTime dateTimeEnd;
 
-	@Builder.Default
-	private String timeZone = "America/Sao_Paulo";
+    @Builder.Default private String timeZone = "America/Sao_Paulo";
 
-	@Builder.Default
-	private ColorEnum color = ColorEnum.PADRAO;
+    @Builder.Default private ColorEnum color = ColorEnum.PADRAO;
 
-	public String toStringSummary() {
-		return String.format("CalendarEvent[Summary=%s, Dates=(%s - %s), Color=%s]", this.summary, this.dateTimeStart,
-				this.dateTimeEnd, this.color);
-	}
+    public String toStringSummary() {
+        return String.format(
+                "CalendarEvent[Summary=%s, Dates=(%s - %s), Color=%s]",
+                this.summary, this.dateTimeStart, this.dateTimeEnd, this.color);
+    }
 }

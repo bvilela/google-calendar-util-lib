@@ -16,5 +16,4 @@ public class ConfigLib {
 
     @Value("${bvilela.lib.google.calendar.credentials.path:#{null}}")
     private String credentialsPath;
-
 }

@@ -15,5 +15,4 @@ public class DateUtils {
         String date = dateTime.format(formatter);
         return new DateTime(date);
     }
-
 }

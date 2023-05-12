@@ -8,10 +8,9 @@ import java.util.List;
 
 public interface GoogleCalendarGetService {
 
-	@SneakyThrows
-	List<Event> getEvents(int maxResults);
+    @SneakyThrows
+    List<Event> getEvents(int maxResults);
 
-	@SneakyThrows
-	List<Event> getEvents(LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title);
-	
+    @SneakyThrows
+    List<Event> getEvents(LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd, String title);
 }

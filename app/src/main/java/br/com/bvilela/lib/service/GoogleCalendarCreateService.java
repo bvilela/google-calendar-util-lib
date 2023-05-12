@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface GoogleCalendarCreateService {
 
-	void createEvent(CalendarEvent dto);
-	void createEvents(List<CalendarEvent> list);
+    void createEvent(CalendarEvent dto);
+
+    void createEvents(List<CalendarEvent> list);
 }

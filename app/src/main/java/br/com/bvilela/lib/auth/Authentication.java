@@ -29,77 +29,80 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Authentication {
 
-	public static final String APPLICATION_NAME = "My Google Calendar Application";
-	// If modifying these scopes, delete your previously saved tokens folder
-	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
-	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-	private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    public static final String APPLICATION_NAME = "My Google Calendar Application";
+    // If modifying these scopes, delete your previously saved tokens folder
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-	@SneakyThrows
-	public static Calendar getService(String pathCredentials) {
-		try {
-			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-			return new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport, pathCredentials))
-					.setApplicationName(APPLICATION_NAME).build();
-			
-		} catch (GeneralSecurityException | IOException e) {
-			throw new GoogleCalendarLibException("Error to get Google Calendar Service", e);
-		}
-	}
+    @SneakyThrows
+    public static Calendar getService(String pathCredentials) {
+        try {
+            final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            return new Calendar.Builder(
+                            httpTransport,
+                            JSON_FACTORY,
+                            getCredentials(httpTransport, pathCredentials))
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
 
-	@SneakyThrows
-	private static Credential getCredentials(final NetHttpTransport httpTransport,
-											 final String pathCredentials) {
+        } catch (GeneralSecurityException | IOException e) {
+            throw new GoogleCalendarLibException("Error to get Google Calendar Service", e);
+        }
+    }
 
-		GoogleClientSecrets clientSecrets = getClientSecrets(pathCredentials);
+    @SneakyThrows
+    private static Credential getCredentials(
+            final NetHttpTransport httpTransport, final String pathCredentials) {
 
-		try {
-			// @formatter:off
-			// Build flow and trigger user authorization request.
-			GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow
-					.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
-					.setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
-					.build();
-			// @formatter:on
+        GoogleClientSecrets clientSecrets = getClientSecrets(pathCredentials);
 
-			LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-			return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-			
-		} catch (Exception e) {
-			throw new GoogleCalendarLibException("Error get Google Api Client OAuth Credential", e);
-		}
-	}
+        try {
+            // Build flow and trigger user authorization request.
+            GoogleAuthorizationCodeFlow flow =
+                    new GoogleAuthorizationCodeFlow.Builder(
+                                    httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
+                            .setDataStoreFactory(
+                                    new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
+                            .build();
 
-	@SneakyThrows
-	private static GoogleClientSecrets getClientSecrets(final String pathCredentials) {
-		try (InputStream inputStream = getInputStream(pathCredentials)) {
-			return loadGoogleClientSecrets(inputStream);
-		}
-	}
+            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+            return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
-	@SneakyThrows
-	private static InputStream getInputStream(String pathCredentials) {
-		try {
-			if (Objects.isNull(pathCredentials)) {
-				Path path = Paths.get("google-credentials.json");
-				return new ClassPathResource(path.toString()).getInputStream();
-			} else {
-				Path path = Paths.get(pathCredentials, "google-credentials.json");
-				return new FileInputStream(path.toString());
-			}
+        } catch (Exception e) {
+            throw new GoogleCalendarLibException("Error get Google Api Client OAuth Credential", e);
+        }
+    }
 
-		} catch (IOException e) {
-			throw new GoogleCalendarLibException("Resource not found: google-credentials.json", e);
-		}
-	}
+    @SneakyThrows
+    private static GoogleClientSecrets getClientSecrets(final String pathCredentials) {
+        try (InputStream inputStream = getInputStream(pathCredentials)) {
+            return loadGoogleClientSecrets(inputStream);
+        }
+    }
 
-	@SneakyThrows
-	private static GoogleClientSecrets loadGoogleClientSecrets(InputStream inputStream) {
-		try {
-			return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
-		} catch (IOException e) {
-			throw new GoogleCalendarLibException("Error to get GoogleClientSecrets", e);
-		}
-	}
+    @SneakyThrows
+    private static InputStream getInputStream(String pathCredentials) {
+        try {
+            if (Objects.isNull(pathCredentials)) {
+                Path path = Paths.get("google-credentials.json");
+                return new ClassPathResource(path.toString()).getInputStream();
+            } else {
+                Path path = Paths.get(pathCredentials, "google-credentials.json");
+                return new FileInputStream(path.toString());
+            }
 
+        } catch (IOException e) {
+            throw new GoogleCalendarLibException("Resource not found: google-credentials.json", e);
+        }
+    }
+
+    @SneakyThrows
+    private static GoogleClientSecrets loadGoogleClientSecrets(InputStream inputStream) {
+        try {
+            return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
+        } catch (IOException e) {
+            throw new GoogleCalendarLibException("Error to get GoogleClientSecrets", e);
+        }
+    }
 }
