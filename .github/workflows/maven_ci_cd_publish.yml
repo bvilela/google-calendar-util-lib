@@ -32,6 +32,6 @@ jobs:
       run: mvn test --file app/pom.xml
 
     - name: Publish to GitHub Packages
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --file app/pom.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
