@@ -4,7 +4,7 @@
 [![build](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd.yml/badge.svg?branch=master)](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd.yml)
 [![publish](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd_publish.yml/badge.svg)](https://github.com/bvilela/google-calendar-util-lib/actions/workflows/maven_ci_cd_publish.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)
-<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib) -->
+<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)  -->
 
 ### :bar_chart: Repository Statistics
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bvilela_google-calendar-util-lib&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bvilela_google-calendar-util-lib)
