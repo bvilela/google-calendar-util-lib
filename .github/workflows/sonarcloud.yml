@@ -33,6 +33,7 @@ jobs:
           version: '6.40.0'
           sourcePath: 'app/src/main/java'
           rulesets: 'app/pmd-ruleset.xml'
+          analyzeModifiedFilesOnly: false
 
       - name: No Violation of PMD Rules
         if: steps.pmd.outputs.violations == 0
