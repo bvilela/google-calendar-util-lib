@@ -2,7 +2,6 @@ package br.com.bvilela.lib.service.impl;
 
 import br.com.bvilela.lib.auth.Authentication;
 import br.com.bvilela.lib.config.ConfigLib;
-import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import br.com.bvilela.lib.model.CalendarEvent;
 import br.com.bvilela.lib.service.GoogleCalendarCreateService;
 import br.com.bvilela.lib.service.GoogleCalendarGetService;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Slf4j
@@ -25,12 +23,14 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 
     private final ConfigLib config;
 
+    private final Authentication authentication;
+
     private final GoogleCalendarGetService getService;
 
     @Override
     @SneakyThrows
     public void createEvent(CalendarEvent dto) {
-        validateDto(dto);
+        dto.validate();
 
         if (checkEventAlreadyExists(dto)) {
             if (config.isLogEnabled()) {
@@ -49,21 +49,6 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
     @SneakyThrows
     public void createEvents(List<CalendarEvent> list) {
         list.forEach(this::createEvent);
-    }
-
-    @SneakyThrows
-    private void validateDto(CalendarEvent dto) {
-        if (Objects.isNull(dto.getSummary())) {
-            throw new GoogleCalendarLibException("Summary is a required field!");
-        }
-
-        if (Objects.isNull(dto.getDateTimeStart())) {
-            throw new GoogleCalendarLibException("DateTimeStart is a required field!");
-        }
-
-        if (Objects.isNull(dto.getDateTimeEnd())) {
-            throw new GoogleCalendarLibException("DateTimeEnd is a required field!");
-        }
     }
 
     private boolean checkEventAlreadyExists(CalendarEvent dto) {
@@ -103,7 +88,7 @@ public class GoogleCalendarCreateServiceImpl implements GoogleCalendarCreateServ
 
     @SneakyThrows
     private void sendEventToCalendarAPI(CalendarEvent calendarEvent, Event event) {
-        Calendar service = Authentication.getService(config.getCredentialsPath());
+        Calendar service = authentication.getService();
 
         if (config.isLogEnabled()) {
             log.info("Sending Event to Google Calendar...");

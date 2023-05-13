@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 
 import br.com.bvilela.lib.enuns.ColorEnum;
 
+import br.com.bvilela.lib.exception.GoogleCalendarLibException;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.ToString;
 
 @ToString
@@ -27,5 +29,20 @@ public class CalendarEvent {
         return String.format(
                 "CalendarEvent[Summary=%s, Dates=(%s - %s), Color=%s]",
                 this.summary, this.dateTimeStart, this.dateTimeEnd, this.color);
+    }
+
+    @SneakyThrows
+    public void validate() {
+        if (this.summary == null || this.summary.isEmpty() || this.summary.trim().isEmpty()) {
+            throw new GoogleCalendarLibException("Summary is a required field!");
+        }
+
+        if (this.dateTimeStart == null) {
+            throw new GoogleCalendarLibException("DateTimeStart is a required field!");
+        }
+
+        if (this.dateTimeEnd == null) {
+            throw new GoogleCalendarLibException("DateTimeEnd is a required field!");
+        }
     }
 }
